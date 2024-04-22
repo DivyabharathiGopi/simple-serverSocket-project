@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Socket server Assignment</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <h3>Welcome to my socket server mini-project</h3>
+    <div class="container">
+        <!-- chat message -->
+        <div class="sub-container">
+            <h2>Chat Message</h2>
+            <input id="chat" type="text" placeholder="Enter your message..."><br><br>
+            <button onclick="chatMessage()">Send Message</button>
+        </div>
+
+        <!-- leave permission -->
+        <div class="sub-container">
+            <h2>Leave Permission</h2>
+            <input id="leave" type="text" placeholder="Enter your leave request..."><br><br>
+            <button onclick="leavePermission()">Request Leave</button>
+        </div>
+
+        <!-- purchase -->
+        <div class="sub-container">
+            <h2>Purchase</h2>
+            <input id="purchase" type="text" placeholder="Enter your purchase..."><br><br>
+            <button onclick="purchase()">Purchase</button>
+        </div><br>
+
+        <div id="existingDivId"></div>
+
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+
+        var socket = io();
+        socket.on('chat message', function (message) {
+            displayMessageForChatMsg(message);
+        });
+        socket.on('leave permission', function (message) {
+            displayMessageForLeave(message);
+        });
+        socket.on('purchase', function (message) {
+            displayMessageForPurchase(message);
+        });
+        //chat message
+        function chatMessage() {
+            const input = document.getElementById('chat');
+            const value = input.value.trim();
+            if (value !== '') {
+                socket.emit('chat message', value);
+                input.value = '';
+            }
+
+        }
+
+        //leave permission
+        function leavePermission() {
+            const input = document.getElementById('leave');
+            const value = input.value.trim();
+            if (value !== '') {
+                socket.emit('leave permission', value);
+                input.value = '';
+            }
+
+        }
+
+        //purchase
+        function purchase() {
+            const input = document.getElementById('purchase');
+            const value = input.value.trim();
+            if (value !== '') {
+                socket.emit('purchase', value);
+                input.value = '';
+            }
+
+        }
+
+        function displayMessageForChatMsg(message) {
+            const messageContainer = document.createElement('div');
+            messageContainer.textContent = message;
+            messageContainer.style.backgroundColor = '#7091E6';
+            messageContainer.style.margin = '3% 4%';
+            messageContainer.style.border='1px solid #EDE8F5';
+            messageContainer.style.height='30px';
+            messageContainer.style.padding='5px 10px';
+            messageContainer.style.color='white';
+            messageContainer.style.borderRadius='8px';
+            messageContainer.style.fontWeight='bold';
+            const existingDiv = document.getElementById('existingDivId');
+            existingDiv.appendChild(messageContainer);
+        }
+
+        function displayMessageForLeave(message) {
+            const messageContainer = document.createElement('div');
+            messageContainer.textContent = message;
+            messageContainer.style.backgroundColor = '#8697c4';
+            messageContainer.style.margin = '3% 4%';
+            messageContainer.style.border='1px solid #EDE8F5';
+            messageContainer.style.height='30px';
+            messageContainer.style.padding='5px 10px';
+            messageContainer.style.color='white';
+            messageContainer.style.borderRadius='8px';
+            messageContainer.style.fontWeight='bold';
+            const existingDiv = document.getElementById('existingDivId');
+            existingDiv.appendChild(messageContainer);
+        }
+
+        function displayMessageForPurchase(message) {
+            const messageContainer = document.createElement('div');
+            messageContainer.textContent = message;
+            messageContainer.style.backgroundColor = '#7091E6';
+            messageContainer.style.margin = '3% 4%';
+            messageContainer.style.border='1px solid #EDE8F5';
+            messageContainer.style.height='30px';
+            messageContainer.style.padding='5px 10px';
+            messageContainer.style.color='white';
+            messageContainer.style.borderRadius='8px';
+            messageContainer.style.fontWeight='bold';
+            const existingDiv = document.getElementById('existingDivId');
+            existingDiv.appendChild(messageContainer);
+        }
+    </script>
+</body>
+
+</html>
